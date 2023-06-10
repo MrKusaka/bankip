@@ -1,0 +1,42 @@
+{% extends 'bank/base.html' %}
+{% load bootstrap5 %}
+
+{% block title %}
+Расчёт
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row ">
+            <form method="get" enctype="multipart/form-data" style="width: 50%">
+                <div class="col-lg-5 align-items-center my-5" style="float: right">
+                    {% csrf_token %}
+{#                    Можно добавить exclude='bank_name' в form, но тогда не выводит расчёт#}
+                    {% bootstrap_form form %}
+                    <button name="submit" class="btn btn-primary">Рассчитать</button>
+                </div>
+            </form>
+        </div>
+    </div>
+     <div class="container">
+        <div class="col">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Платёж</th>
+                        <th scope="col">Остаток долга</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr>
+
+                    <td>{% for payment in all_payment %}<ol>{{ payment }}</ol>{% endfor %}</td>
+                    <td>{% for debt in all_remaining_debt %}<ul>{{ debt }}</ul>{% endfor %}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+{% endblock %}

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import CreateView, TemplateView, View, UpdateView
+from django.views.generic import CreateView, View
 
 from .forms import *
 from .models import Credit
@@ -13,10 +13,11 @@ class CreditView(View):
 
 class CreditCalculationView(View):
     def get(self, request):
-        calculations = ''
+        monthly_payment = ''
         error = ''
         all_payment = []
         all_remaining_debt = []
+        percentage_share_list = []
         form = CreditAddForm()
         if request.method == 'GET':
             form = CreditAddForm(request.GET)
@@ -26,17 +27,22 @@ class CreditCalculationView(View):
                 credit_term = form.cleaned_data['credit_term']
                 debt_percent = (debt_percent / 100) / 12
                 a = debt_percent + (debt_percent / ((1 + debt_percent) ** credit_term - 1))
+                monthly_payment = round((amount * a), 2)  # ежемесячный расчет
+                # Пока не реализована новая вьюха, все делаю в одной.
                 for _ in range(credit_term):
-                    calculations = round((amount * a), 2)
-                    all_payment.append(calculations)
+                    percentage_share = round((amount * debt_percent), 2)  # доля процента
+                    percentage_share_list.append(percentage_share)  # список процентных долей
+                    # ежемесячный расчёт исключая процент
+                    calculations = round((monthly_payment - percentage_share), 2)
+                    all_payment.append(calculations)  # список платежа, который идёт за долг
                     amount = round((amount - calculations), 2)
-                    all_remaining_debt.append(amount)
-                print(amount)
+                    all_remaining_debt.append(amount)  # остаток долга
             else:
                 error = 'Wrong!'
-        print(calculations)
         return render(request, 'bank/calculation.html', {
             'form': form,
+            'monthly_payment': monthly_payment,
+            'percentage_share_list': percentage_share_list,
             'all_payment': all_payment,
             'all_remaining_debt': all_remaining_debt,
             'error': error
@@ -66,5 +72,3 @@ class CreditAddView(CreateView):
     model = Credit
     template_name = 'bank/credit.html'
     form_class = CreditAddForm
-
-

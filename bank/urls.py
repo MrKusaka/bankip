@@ -6,6 +6,7 @@ from django.urls import path
 from . import views
 from .views import *
 
+
 urlpatterns = [
     path('credits/', CreditView.as_view(), name='credit'),
     path('credits_add/', CreditAddView.as_view(), name='credit_add'),

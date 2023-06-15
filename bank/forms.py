@@ -3,6 +3,7 @@ from django import forms
 
 from .models import Credit
 
+
 class CreditAddForm(ModelForm):
     """Форма для добавления фильма"""
     bank_name = forms.CharField(max_length=100,

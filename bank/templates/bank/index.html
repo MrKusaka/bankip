@@ -19,11 +19,14 @@
                 <tbody>
                 {% for c in credit_list %}
                     <tr>
-                        <td>{{ c.bank_name }}</td>
+                        <td><a href="{% url 'credit_update' c.id %}">{{ c.bank_name }}</a></td>
                         <td>{{ c.amount }}</td>
                         <td>{{ c.credit_term }}</td>
                         <td>{{ c.debt_percent }}</td>
-                        <td><a href="{% url 'calculation' %}">Рассчитать</a></td>
+                        <td>
+                            <a href="{% url 'calculation' %}">Рассчитать</a>
+                            <a class="btn btn-danger" href="{% url 'credits_delete' c.id %}">Удалить</a>
+                        </td>
                     </tr>
                 {% endfor %}
                 </tbody>

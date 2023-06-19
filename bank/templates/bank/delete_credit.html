@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+{% extends 'bank/base.html' %}
+{% load bootstrap5 %}
+
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+    <body>
+    {% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Название банка</th>
+                        <th scope="col">Сумма кредита</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ credit.bank_name }}</td>
+                        <td>{{ credit.amount }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+        </div>
+        <p>Вы хотите удалить данные кредита?</p>
+        <form method="POST">
+            {% csrf_token %}
+            <input class="btn btn-danger"  type="submit" value="Подтвердить">
+
+        </form>
+    </div>
+    {% endblock content %}
+    </body>
+</html>

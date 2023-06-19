@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import CreateView, View
+from django.views.generic import CreateView, View, DeleteView, UpdateView
 
 from .forms import *
 from .models import Credit
@@ -72,3 +72,23 @@ class CreditAddView(CreateView):
     model = Credit
     template_name = 'bank/credit.html'
     form_class = CreditAddForm
+
+
+class CreditUpdateView(UpdateView):
+    template_name = 'bank/credit.html'
+    form_class = CreditAddForm
+
+    def get_object(self, **kwargs):
+        id = self.kwargs.get('pk')
+        return Credit.objects.get(pk=id)
+
+
+class CreditDeleteView(DeleteView):
+    context_object_name = 'credit'
+    template_name = 'bank/delete_credit.html'
+    queryset = Credit.objects.all()
+    success_url = '/bank/message/'
+
+
+def index(request):
+    return render(request, 'bank/message.html')

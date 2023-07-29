@@ -6,23 +6,23 @@
 {% endblock %}
 
 {% block content %}
-     <div class="container">
-        <div class="col">
-            <table class="table">
+    <div class="container">
+            <table class="scroll-table">
                 <thead>
                     <tr>
-                        <th scope="col">Платёж</th>
-
+                        <th scope="col">Сумма за долг</th>
+                        <th scope="col">Доля процента</th>
+                        <th scope="col">Остаток долга</th>
                     </tr>
                 </thead>
                 <tbody>
-                {% for c in b %}
-                    <tr>
-                    <td>{{ c }}</td>
+                <tr>
+                    <td>{% for payment in all_payment %}<ul>{{ payment }} </ul>{% endfor %}</td>
+                    <td>{% for per in percentage_share_list %}<ul>{{ per }}</ul>{% endfor %}</td>
+                    <td>{% for debt in all_remaining_debt %}<ul>{{ debt }}</ul>{% endfor %}</td>
                 </tr>
-                {% endfor %}
                 </tbody>
             </table>
+            <h2>Итого заплачено: {{ total }}</h2>
         </div>
-    </div>
 {% endblock %}

@@ -17,7 +17,7 @@ urlpatterns = [
     # path('full_calculation', FullCalculationView.as_view(), name='full_calculation'),
     # path('credit_calculation/<pk>/', CreditCalculationView.as_view(), name='credit_calculation')
 
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

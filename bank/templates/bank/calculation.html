@@ -1,5 +1,6 @@
 {% extends 'bank/base.html' %}
 {% load bootstrap5 %}
+{% load static %}
 
 {% block title %}
 Расчёт
@@ -7,38 +8,21 @@
 
 {% block content %}
     <div class="container">
-        <div class="row ">
-            <form method="get" enctype="multipart/form-data" style="width: 50%">
+        <div class="row">
+            <form method="post" enctype="multipart/form-data" style="width: 50%">
                 <div class="col-lg-5 align-items-center my-5" style="float: right">
                     {% csrf_token %}
-{#                    Можно добавить exclude='bank_name' в form, но тогда не выводит расчёт#}
-                    {% bootstrap_form form %}
-                    <h1>Ежемесячный платёж: {{ monthly_payment }}</h1>
-                    <button name="submit" class="btn btn-primary">Рассчитать</button>
+
+                    {% bootstrap_form calculation_form %}
+{#                    {{ form_as.p }}#}
+
+                    <h1>Ежемесячный платёж: {{ calculation_data.monthly_payment }}</h1>
+                    <button name="submit" class="custom-btn btn-15">Рассчитать</button>
+{#                    <h2>Нажми на<a href="{% url 'full_calculation' %}"> Меня </a>чтоб показать полный расчёт</h2>#}
                 </div>
             </form>
         </div>
     </div>
-     <div class="container">
-        <div class="col">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">Сумма за долг</th>
-                        <th scope="col">Доля процента</th>
-                        <th scope="col">Остаток долга</th>
-                    </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>{% for payment in all_payment %}<ul>{{ payment }} </ul>{% endfor %}</td>
-                    <td>{% for per in percentage_share_list %}<ul>{{ per }}</ul>{% endfor %}</td>
-                    <td>{% for debt in all_remaining_debt %}<ul>{{ debt }}</ul>{% endfor %}</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+
     </div>
-
-
 {% endblock %}

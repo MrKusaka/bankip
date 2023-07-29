@@ -23,10 +23,8 @@
                         <td>{{ c.amount }}</td>
                         <td>{{ c.credit_term }}</td>
                         <td>{{ c.debt_percent }}</td>
-                        <td>
-                            <a href="{% url 'calculation' %}">Рассчитать</a>
-                            <a class="btn btn-danger" href="{% url 'credits_delete' c.id %}">Удалить</a>
-                        </td>
+                        <td><a href="{% url 'calculation' %}">Рассчитать</a></td>
+                        <td><a class="btn btn-danger" href="{% url 'credits_delete' c.id %}">Удалить</a></td>
                     </tr>
                 {% endfor %}
                 </tbody>

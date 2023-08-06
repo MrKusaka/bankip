@@ -12,17 +12,52 @@
             <form method="post" enctype="multipart/form-data" style="width: 50%">
                 <div class="col-lg-5 align-items-center my-5" style="float: right">
                     {% csrf_token %}
-
                     {% bootstrap_form calculation_form %}
-{#                    {{ form_as.p }}#}
 
-                    <h1>Ежемесячный платёж: {{ calculation_data.monthly_payment }}</h1>
                     <button name="submit" class="custom-btn btn-15">Рассчитать</button>
-{#                    <h2>Нажми на<a href="{% url 'full_calculation' %}"> Меня </a>чтоб показать полный расчёт</h2>#}
+                    <h1>Ежемесячный платёж: {{ calculation_data.monthly_payment }}</h1>
+                    {% if calculation_data.monthly_payment > 0 %}
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" style="" data-bs-target="#exampleModal">
+                            Показать полный расчёт
+                        </button>
+                    {% endif %}
                 </div>
             </form>
         </div>
     </div>
-
-    </div>
+    <!-- Модальное окно -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Полный расчёт</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <table class="scroll-table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Сумма за долг</th>
+                                    <th scope="col">Доля процента</th>
+                                    <th scope="col">Остаток долга</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>{% for payment in calculation_data.all_payment  %}<ul>{{ payment }} </ul>{% endfor %}</td>
+                                <td>{% for per in calculation_data.percentage_share_list %}<ul>{{ per }}</ul>{% endfor %}</td>
+                                <td>{% for debt in calculation_data.all_remaining_debt %}<ul>{{ debt }}</ul>{% endfor %}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <h2>Итого заплачено: {{ calculation_data.total }}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+      </div>
 {% endblock %}

@@ -17,12 +17,13 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td>{% for payment in all_payment %}<ul>{{ payment }} </ul>{% endfor %}</td>
-                    <td>{% for per in percentage_share_list %}<ul>{{ per }}</ul>{% endfor %}</td>
-                    <td>{% for debt in all_remaining_debt %}<ul>{{ debt }}</ul>{% endfor %}</td>
+                    <td><ul>{{ calc_data.all_payment }} </ul></td>
+{#                    <td>{% for payment in all_payment %}<ul>{{ payment }} </ul>{% endfor %}</td>#}
+{#                    <td>{% for per in percentage_share_list %}<ul>{{ per }}</ul>{% endfor %}</td>#}
+{#                    <td>{% for debt in all_remaining_debt %}<ul>{{ debt }}</ul>{% endfor %}</td>#}
                 </tr>
                 </tbody>
             </table>
-            <h2>Итого заплачено: {{ total }}</h2>
+            <h2>Итого заплачено: {{ calc_data.total }}</h2>
         </div>
 {% endblock %}

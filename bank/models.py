@@ -6,7 +6,7 @@ class Credit(models.Model):
     bank_name = models.CharField('Название банка', max_length=100)
     amount = models.IntegerField('Сумма задолженности')
     credit_term = models.IntegerField('Срок задолженности')
-    debt_percent = models.IntegerField('Процент задолженности')
+    debt_percent = models.FloatField('Процент задолженности')
 
     def __str__(self):
         return self.bank_name

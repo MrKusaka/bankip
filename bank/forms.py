@@ -13,7 +13,7 @@ class CreditAddForm(ModelForm):
                                 )
     amount = forms.IntegerField(label='Сумма задолженности')
     credit_term = forms.IntegerField(label='Срок задолженности')
-    debt_percent = forms.IntegerField(label='Процент задолженности')
+    debt_percent = forms.FloatField(label='Процент задолженности')
 
     class Meta:
         model = Credit
@@ -29,11 +29,13 @@ class CreditCalculationForm(forms.Form):
     """Форма для расчёта кредита"""
     amount = forms.IntegerField(label='Сумма задолженности')
     credit_term = forms.IntegerField(label='Срок задолженности')
-    debt_percent = forms.IntegerField(label='Процент задолженности')
+    debt_percent = forms.FloatField(label='Процент задолженности')
 
     def get_calculations_data(self):
         calculation_data = {}
-
+        percentage_share_list = []
+        all_payment = []
+        all_remaining_debt = []
         if self.is_valid():
             amount = self.cleaned_data['amount']
             debt_percent = self.cleaned_data['debt_percent']
@@ -44,14 +46,15 @@ class CreditCalculationForm(forms.Form):
             total = monthly_payment * credit_term
             calculation_data['monthly_payment'] = monthly_payment
             calculation_data['total'] = total
-        return calculation_data
-    # Для полного расчёта на весь срок кредита (пока ничего не менял, просто скопировал из старой вью)
-    # def get_full_calculation_data(self):
-    #     for _ in range(credit_term):
-    #         percentage_share = round((amount * debt_percent), 2)  # доля процента
-    #         # percentage_share_list.append(percentage_share)  # список процентных долей
-    #         # ежемесячный расчёт исключая процент
-    #         calculations = round((monthly_payment - percentage_share), 2)
-    #         # all_payment.append(calculations)  # список платежа, который идёт за долг
-    #         amount = round((amount - calculations), 2)
-    #         # all_remaining_debt.append(amount)  # остаток долга
+            for _ in range(credit_term):
+                percentage_share = round((amount * debt_percent), 2)  # доля процента
+                percentage_share_list.append(percentage_share)  # список процентных долей
+                # ежемесячный расчёт исключая процент
+                calculations = round((monthly_payment - percentage_share), 2)
+                all_payment.append(calculations)  # список платежа, который идёт за долг
+                amount = round((amount - calculations), 2)
+                all_remaining_debt.append(amount)  # остаток долга
+                calculation_data['percentage_share_list'] = percentage_share_list
+                calculation_data['all_payment'] = all_payment
+                calculation_data['all_remaining_debt'] = all_remaining_debt
+            return calculation_data

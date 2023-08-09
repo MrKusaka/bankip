@@ -1,4 +1,57 @@
-.scroll-table {
+.scroll-table table {
+	width:100%;
+	table-layout: fixed;
+	border: none;
+}
+
+body {
+	background: white;
+}
+
+aside {
+	float: left;
+	background: #212121;
+	width: 15%;
+	padding: 2.5%;
+	height: 100vh;
+	color: #fff;
+
+	border-radius: 0 10px 10px 0;
+}
+
+
+aside .logo {
+	font-size: 20px;
+	margin-left: 10px;
+	font-weight: bold;
+}
+
+aside h3 {
+	margin-top: 25px;
+	font-size: 15px;
+}
+
+aside ul {
+  list-style: none
+}
+
+aside ul li {
+	color: white;
+	display: block;
+	margin-top: 20px;
+	transition: all .3s ease;
+}
+
+aside ul a {
+	text-decoration: none;
+}
+
+aside ul li:hover, aside ul a:hover {
+	color: #cc0000;
+	transform: scale(1.05);
+}
+
+table {
 	width: 100%;
 	border: 1px solid #ccc;
 	border-collapse: collapse;
